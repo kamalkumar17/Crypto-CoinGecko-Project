@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { fetchCoinData } from "../../Services/fetchCoinData";
 import { useQuery } from "react-query";
-
+import currencyStore from "../../state/store";
 function CoinTable() {
+    
+    const { currency } = currencyStore();
     const [page, setPage] = useState(1);
-    const { data, isLoading, error, isError } = useQuery(['coins', page], () => fetchCoinData(page, 'usd'), {
-        retry: 2,
-        retryDelay: 1000,
+    const { data, isLoading, error, isError } = useQuery(['coins',page,currency], () => fetchCoinData(page,currency), {
+        // retry: 2,
+        // retryDelay: 1000,
         cacheTime: 1000 * 60 * 2,
         staleTime: 1000 * 60 * 2
 
@@ -86,4 +88,6 @@ function CoinTable() {
     )
 }
 export default CoinTable;
+
+
 
