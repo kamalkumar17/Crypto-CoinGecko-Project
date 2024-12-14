@@ -1,12 +1,13 @@
 import axiosInstance from "../Helper/axiosInstance";
 
-export async function fetchCoinData(id) {
-    const perPage = 10;
+export async function fetchCoinDatails(id) {
     try {
-        const response = await axiosInstance.get(`/coins/markets?${id}`);
-        return response.data;
+        const response = await axiosInstance.get(`/coins/${id}`);
+        // console.log(id);
+        return response.data ;
     } catch (error) {
         console.error(error);
         return null;
     }
 }
+export default fetchCoinDatails;
