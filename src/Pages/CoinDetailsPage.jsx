@@ -4,7 +4,7 @@ import fetchCoinDatails from "../Services/fetchCoinDetails";
 import { useEffect } from "react";
 import parse from "html-react-parser";
 import currencyStore from "../state/store";
-
+import PageLoader from "../Components/PageLoader/PageLoader";
 function CoinDetailsPage() {
     const { currency } = currencyStore();
     const { coinID } = useParams();
@@ -18,7 +18,7 @@ function CoinDetailsPage() {
     }, [coin])
 
     if (isLoading) {
-        return <div>Loading...</div>
+        return <PageLoader/>
     }
     if (isError) {
         return <div>Error : Something Went Wrong </div>
