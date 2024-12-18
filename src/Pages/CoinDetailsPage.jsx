@@ -1,28 +1,19 @@
-import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
-import fetchCoinDatails from "../Services/fetchCoinDetails";
-import { useEffect } from "react";
 import parse from "html-react-parser";
-import currencyStore from "../state/store";
 import PageLoader from "../Components/PageLoader/PageLoader";
 import CoinInfoContainer from "../Components/CoinInfo/CoinInfoContainer";
+import useFetchCoin from "../Hooks/useFetchCoin";
+import { ErrorBoundary } from "react-error-boundary";
+import { useParams } from "react-router-dom";
 function CoinDetailsPage() {
-    const { currency } = currencyStore();
-    const { coinID } = useParams();
-    const { data: coin, isError, isLoading } = useQuery(['coin', coinID], () => fetchCoinDatails(coinID), {
-        cacheTime: 1000 * 60 * 2,
-        staleTime: 1000 * 60 * 2,
-    });
-
-    useEffect(() => {
-        console.log(coin);
-    }, [coin])
-
+    
+    const {coinID} = useParams();
+    const {coin,isError,isLoading,currency} = useFetchCoin(coinID);
+    
     if (isLoading) {
         return <PageLoader/>
     }
     if (isError) {
-        return <div>Error : Something Went Wrong </div>
+        return <ErrorBoundary/>
     }
 
     return (
